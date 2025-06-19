@@ -1,0 +1,77 @@
+{% extends 'layout.html' %}
+
+{% block title %}All Bugs{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>🐞 Reported Bugs</h2>
+
+  <a href="{{ url_for('main.report_bug') }}" class="btn btn-success mb-3">Report New Bug</a>
+
+  <!-- Optional filter/search form (Phase 8) -->
+  <form method="GET" class="row g-3 mb-4">
+    <div class="col-md-3">
+      <input type="text" name="search" class="form-control" placeholder="Search..." value="{{ request.args.get('search', '') }}">
+    </div>
+    <div class="col-md-3">
+      <select name="status" class="form-select">
+        <option value="">All Status</option>
+        <option value="New">New</option>
+        <option value="Assigned">Assigned</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Resolved">Resolved</option>
+        <option value="Closed">Closed</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <select name="severity" class="form-select">
+        <option value="">All Severity</option>
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+        <option value="Critical">Critical</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <button type="submit" class="btn btn-primary w-100">Filter</button>
+    </div>
+  </form>
+
+  <table class="table table-hover table-bordered">
+    <thead class="table-dark text-center">
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Status</th>
+        <th>Severity</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for bug in bugs %}
+      <tr>
+        <td>{{ bug.id }}</td>
+        <td><a href="{{ url_for('main.bug_detail', bug_id=bug.id) }}">{{ bug.title }}</a></td>
+        <td>{{ bug.status }}</td>
+        <td>{{ bug.severity }}</td>
+        <td>
+          {% if current_user.role == 'admin' and bug.status == 'New' %}
+            <a href="{{ url_for('main.assign_bug', bug_id=bug.id) }}" class="btn btn-sm btn-warning">Assign</a>
+          {% elif bug.assigned_to == current_user.id %}
+            <a href="{{ url_for('main.update_status', bug_id=bug.id) }}" class="btn btn-sm btn-primary">Update Status</a>
+          {% else %}
+            <a href="{{ url_for('main.bug_detail', bug_id=bug.id) }}" class="btn btn-sm btn-secondary">View</a>
+          {% endif %}
+        </td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="5" class="text-center">No bugs found.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+
+

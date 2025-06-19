@@ -1,0 +1,59 @@
+{% extends 'layout.html' %}
+
+{% block title %}Bug Details{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>🐞 {{ bug.title }}</h2>
+    <p><strong>Description:</strong> {{ bug.description }}</p>
+    <p><strong>Severity:</strong> {{ bug.severity }}</p>
+    <p><strong>Status:</strong> {{ bug.status }}</p>
+    <p><strong>Created By:</strong> {{ bug.reporter.username }}</p>
+    <p><strong>Assigned To:</strong> {{ bug.assignee.username if bug.assignee else "Unassigned" }}</p>
+    <p><strong>Created On:</strong> {{ bug.created_on.strftime('%Y-%m-%d %H:%M') }}</p>
+
+    <hr>
+    <h4>📜 History</h4>
+    {% for h in bug.history %}
+        <div class="mb-2">
+            <small class="text-muted">
+                [{{ h.timestamp.strftime('%Y-%m-%d %H:%M') }}] 
+                <strong>{{ h.user.username }}</strong> changed status: 
+                <em>{{ h.old_status }}</em> → <em>{{ h.new_status }}</em>
+            </small><br>
+            {% if h.comment %}
+                <p class="mb-1">{{ h.comment }}</p>
+            {% endif %}
+        </div>
+    {% else %}
+        <p>No status updates yet.</p>
+    {% endfor %}
+
+    <hr>
+    <h4>💬 Comments</h4>
+    {% for c in bug.comments %}
+    <div class="card mb-2">
+        <div class="card-body">
+            <p>
+                <strong>{{ c.user.username }}</strong> 
+                <small class="text-muted">{{ c.timestamp.strftime('%Y-%m-%d %H:%M') }}</small>
+            </p>
+            <p>{{ c.content }}</p>
+        </div>
+    </div>
+    {% else %}
+    <p>No comments yet.</p>
+    {% endfor %}
+
+    <form method="POST" class="mt-4">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.content.label }}<br>
+            {{ form.content(class="form-control", rows=3) }}
+        </div>
+        <br>
+        {{ form.submit(class="btn btn-primary") }}
+    </form>
+</div>
+{% endblock %}
+

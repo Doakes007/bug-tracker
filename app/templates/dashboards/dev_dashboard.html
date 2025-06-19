@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block title %}Developer Dashboard{% endblock %}
+
+{% block content %}
+<h2>Your Assigned Bugs</h2>
+
+<ul class="list-group">
+    {% for bug in bugs %}
+    <li class="list-group-item">
+        <strong>{{ bug.title }}</strong> — Status: {{ bug.status }}
+    </li>
+    {% else %}
+    <li class="list-group-item text-muted">No bugs assigned to you.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
+
