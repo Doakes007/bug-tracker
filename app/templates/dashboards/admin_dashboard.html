@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<h2>Welcome, Admin!</h2>
+<ul class="list-group">
+    <li class="list-group-item">Total Bugs: {{ total_bugs }}</li>
+    <li class="list-group-item">Assigned Bugs: {{ assigned }}</li>
+    <li class="list-group-item">Total Users: {{ users }}</li>
+</ul>
+{% endblock %}
+

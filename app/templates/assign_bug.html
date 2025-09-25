@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block title %}Assign Bug{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>📌 Assign Bug</h2>
+
+  <p><strong>Bug Title:</strong> {{ bug.title }}</p>
+  <p><strong>Description:</strong> {{ bug.description }}</p>
+  <p><strong>Severity:</strong> {{ bug.severity }}</p>
+
+  <form method="POST">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">
+      {{ form.assigned_to.label(class="form-label") }}
+      {{ form.assigned_to(class="form-select") }}
+    </div>
+
+    <button type="submit" class="btn btn-warning">Assign</button>
+    <a href="{{ url_for('main.view_bugs') }}" class="btn btn-secondary ms-2">Cancel</a>
+  </form>
+</div>
+{% endblock %}
+

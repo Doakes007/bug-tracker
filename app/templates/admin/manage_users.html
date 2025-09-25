@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+{% block title %}Manage Users{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Manage Users</h2>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Update</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <form method="POST" action="{{ url_for('main.update_user_role', user_id=user.id) }}">
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <select name="role" class="form-select">
+                        {% for r in ['admin', 'dev', 'qa', 'reporter'] %}
+                        <option value="{{ r }}" {% if user.role == r %}selected{% endif %}>{{ r }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td><button type="submit" class="btn btn-sm btn-primary">Update</button></td>
+            </form>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+

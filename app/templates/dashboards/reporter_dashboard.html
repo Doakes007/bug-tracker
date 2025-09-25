@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+{% block title %}Reporter Dashboard{% endblock %}
+{% block content %}
+<h2>Your Reported Bugs</h2>
+<ul class="list-group">
+    {% for bug in bugs %}
+    <li class="list-group-item">
+        {{ bug.title }} - <strong>{{ bug.status }}</strong>
+    </li>
+    {% else %}
+    <li class="list-group-item">No bugs reported yet.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
+

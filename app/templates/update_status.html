@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% block title %}Update Bug Status{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>🛠️ Update Bug Status</h2>
+
+  <p><strong>Bug Title:</strong> {{ bug.title }}</p>
+  <p><strong>Current Status:</strong> {{ bug.status }}</p>
+  <p><strong>Severity:</strong> {{ bug.severity }}</p>
+
+  <form method="POST">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">
+      {{ form.status.label(class="form-label") }}
+      {{ form.status(class="form-select") }}
+    </div>
+
+    <div class="mb-3">
+      {{ form.comment.label(class="form-label") }}
+      {{ form.comment(class="form-control", rows=3) }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update Status</button>
+    <a href="{{ url_for('main.view_bugs') }}" class="btn btn-secondary ms-2">Cancel</a>
+  </form>
+</div>
+{% endblock %}
+
